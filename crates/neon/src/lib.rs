@@ -83,6 +83,7 @@ pub mod event;
 pub mod handle;
 mod macros;
 pub mod meta;
+pub mod node;
 pub mod object;
 pub mod prelude;
 pub mod reflect;
