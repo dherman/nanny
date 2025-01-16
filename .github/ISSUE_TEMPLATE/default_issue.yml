@@ -1,0 +1,17 @@
+name: Other 🎫
+title: <issue title>
+description: Use this template for all issues that are not bugs or feature requests.
+body:
+  - attributes:
+      description: "Please provide a brief description of the issue"
+      label: "Short Summary"
+      placeholder: "example: this issue template should be dynamically generated..."
+    id: issue_summary
+    type: textarea
+    validations:
+      required: false
+  - type: markdown
+    attributes:
+      value: |
+        > Thanks in advance for taking the time to file this issue! 
+        > We appreciate it!

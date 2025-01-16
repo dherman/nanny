@@ -6,19 +6,16 @@ Neon welcomes contribution from everyone. Here are some resources to help you jo
 
 ### Issue reports
 
-We welcome issues and aim to keep the barrier low. Just [file a GitHub issue](https://github.com/neon-bindings/neon/issues)
-like normal---we don't require issue templates or have any particular process.
-
-That said, the more information you can provide to help us reproduce your issue, the better!
+We welcome issues and aim to keep the barrier low. For clarity and efficiency, we created these simple issue templates:
+ - [Bug Report](https://github.com/neon-bindings/issues/new?assignees=&labels=bug&template=bug_report.yml&title=🐛+%5BBUG%5D+-+<title>)
+ - [Other](https://github.com/neon-bindings/issues/new?assignees=&labels=&template=default_issue.yml&title=%3Cissue+title%3E)
 
 ### Requests For Comments
 
 If you would like to propose a design change or new feature for the Neon API or the `neon` command-line tool,
 we encourage you to [submit an RFC](https://github.com/neon-bindings/rfcs)!
 
-The [RFC process](https://github.com/neon-bindings/rfcs#the-process) has a little more overhead than
-filing an issue, but it's for the goal of allowing the Neon community to have a chance to vet
-design ideas and reach consensus. And even at that, we've deliberately kept the [RFC template](https://github.com/neon-bindings/rfcs/blob/main/0000-template.md)
+The [RFC process](https://github.com/neon-bindings/rfcs#the-process) has a little more overhead than filing an issue, but it's for the goal of allowing the Neon community to have a chance to vet design ideas and reach consensus. And even at that, we've deliberately kept the [RFC template](https://github.com/neon-bindings/issues/new?assignees=&labels=enhancement&template=feature_request.yml&title=%3Ctitle%3E)
 simple and open-ended.
 
 ### Good first bugs

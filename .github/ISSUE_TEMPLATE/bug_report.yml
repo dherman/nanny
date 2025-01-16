@@ -1,0 +1,59 @@
+name: "Found a Bug! 🐛"
+title: "🐛 [BUG] - <title>"
+description: "Use this template to report a bug. Thank you!"
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks in advance for taking the time to file this issue!
+        We hope this simple template will improve issue resolution time and minimize the need for _context discovery_ discussions.
+  - type: textarea
+    id: issue_summary
+    attributes:
+      label: Short Summary
+      description: Please provide a brief description of the issue
+      placeholder: "example: neon crashes when ..."
+    validations:
+      required: true
+  - type: textarea
+    id: issue_repro
+    attributes:
+      label: Steps to reproduce
+      description: "Help us reproduce this issue with some step-by-step instructions"
+      value: |
+        1. 
+        2. 
+        3. 
+        ...
+    validations:
+      required: true
+  - type: textarea
+    id: issue_fix
+    attributes:
+      label: Suggested fix
+      description: "If you have a proposed way to fix this bug, please summarize below. PRs work too :)"
+  - type: input
+    id: node_version
+    attributes:
+      label: "Node version: "
+      description: "Please specify the version of `node` you are running"
+      placeholder: "v18.10.0"
+  - type: input
+    id: pm_version
+    attributes:
+      label: "Package Manager & version: "
+      description: "Please specify the package manager your are using and its version"
+      placeholder: "example: npm 8.19.2"
+  - type: input
+    id: neon_version
+    attributes:
+      label: "Neon version(s): "
+      description: "Please specify the versions of `neon` that exhibit this issue"
+      placeholder: "example: v0.10.0, v0.9.x"
+  - type: input
+    id: os_version_arch
+    attributes:
+      label: OS Version
+      description: "Please provide your OS version and Architecture"
+      placeholder: "example: macOS 12.5.1 Intel"
