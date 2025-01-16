@@ -113,7 +113,7 @@ use crate::lifecycle::LocalCell;
 static COUNTER: AtomicUsize = AtomicUsize::new(0);
 
 fn next_id() -> usize {
-    COUNTER.fetch_add(1, Ordering::SeqCst)
+    COUNTER.fetch_add(1, Ordering::Relaxed)
 }
 
 /// A JavaScript thread-local container that owns its contents, similar to

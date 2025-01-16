@@ -37,7 +37,7 @@ impl InstanceId {
     fn next() -> Self {
         static NEXT_ID: AtomicU32 = AtomicU32::new(0);
 
-        let next = NEXT_ID.fetch_add(1, Ordering::SeqCst).checked_add(1);
+        let next = NEXT_ID.fetch_add(1, Ordering::Relaxed).checked_add(1);
         match next {
             Some(id) => Self(id),
             None => panic!("u32 overflow ocurred in Lifecycle InstanceId"),
