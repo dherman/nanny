@@ -1,4 +1,10 @@
-use crate::{context::Cx, result::JsResult, types::extract::TryIntoJs};
+use crate::{
+    context::Cx,
+    result::JsResult,
+    types::{extract::TryIntoJs, Value},
+};
+
+struct With<F>(pub F);
 
 /// Wraps a closure that will be lazily evaluated when [`TryIntoJs::try_into_js`] is
 /// called.
@@ -6,10 +12,15 @@ use crate::{context::Cx, result::JsResult, types::extract::TryIntoJs};
 /// Useful for executing arbitrary code on the main thread before returning from a
 /// function exported with [`neon::export`](crate::export).
 ///
+/// **Note:** The return type is [`JsResult`]. If you need to return a non-JavaScript type,
+/// call [`TryIntoJs::try_into_js`].
+///
+/// _See [`With`](With#Example) for example usage._
+///
 /// ## Example
 ///
 /// ```
-/// # use neon::{prelude::*, types::extract::{TryIntoJs, With}};
+/// # use neon::{prelude::*, types::extract::{self, TryIntoJs}};
 /// use std::time::Instant;
 ///
 /// #[neon::export(task)]
@@ -18,28 +29,28 @@ use crate::{context::Cx, result::JsResult, types::extract::TryIntoJs};
 ///     let sum = nums.into_iter().sum::<f64>();
 ///     let log = format!("sum took {} ms", start.elapsed().as_millis());
 ///
-///     With(move |cx| -> NeonResult<_> {
+///     extract::with(move |cx| -> NeonResult<_> {
 ///         cx.global::<JsObject>("console")?
 ///             .method(cx, "log")?
 ///             .arg(&log)?
 ///             .exec()?;
 ///
-///         Ok(sum)
+///         sum.try_into_js(cx)
 ///     })
 /// }
 /// ```
-pub struct With<F, O>(pub F)
+pub fn with<V, F>(f: F) -> impl for<'cx> TryIntoJs<'cx, Value = V>
 where
-    // N.B.: We include additional required bounds to allow the compiler to infer the
-    // correct closure argument when using `impl for<'cx> TryIntoJs<'cx>`. Without
-    // these bounds, it would be necessary to write a more verbose signature:
-    // `With<impl for<'cx> FnOnce(&mut Cx<'cx>) -> SomeConcreteReturnType>`.
-    for<'cx> F: FnOnce(&mut Cx<'cx>) -> O;
+    V: Value,
+    for<'cx> F: FnOnce(&mut Cx<'cx>) -> JsResult<'cx, V>,
+{
+    With(f)
+}
 
-impl<'cx, F, O> TryIntoJs<'cx> for With<F, O>
+impl<'cx, O, F> TryIntoJs<'cx> for With<F>
 where
-    F: FnOnce(&mut Cx) -> O,
     O: TryIntoJs<'cx>,
+    F: FnOnce(&mut Cx<'cx>) -> O,
 {
     type Value = O::Value;
 
@@ -48,4 +59,4 @@ where
     }
 }
 
-impl<F, O> super::private::Sealed for With<F, O> where for<'cx> F: FnOnce(&mut Cx<'cx>) -> O {}
+impl<F> super::private::Sealed for With<F> {}

@@ -201,15 +201,15 @@ pub use neon_macros::main;
 /// ```
 /// # #[cfg(all(feature = "napi-6", feature = "futures"))]
 /// # {
-/// # use neon::types::extract::{TryIntoJs, With};
+/// # use neon::types::extract::{self, TryIntoJs};
 /// #[neon::export]
 /// async fn add(a: f64, b: f64) -> impl for<'cx> TryIntoJs<'cx> {
 ///     let sum = a + b;
 ///
-///     With(move |_cx| {
+///     extract::with(move |cx| {
 ///         println!("Hello from the JavaScript main thread!");
 ///
-///         sum
+///         sum.try_into_js(cx)
 ///     })
 /// }
 /// # }

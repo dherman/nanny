@@ -90,4 +90,11 @@ describe("Extractors", () => {
       }
     );
   });
+
+  it("With", async () => {
+    assert.strictEqual(await addon.sleepWithJs(1.5), 1.5);
+    assert.strictEqual(await addon.sleepWithJsSync(1.5), 1.5);
+    assert.strictEqual(await addon.sleepWith(1.5), 1.5);
+    assert.strictEqual(await addon.sleepWithSync(1.5), 1.5);
+  });
 });

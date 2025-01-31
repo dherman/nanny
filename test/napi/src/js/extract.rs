@@ -158,3 +158,36 @@ pub fn buffer_concat(mut a: Vec<u8>, Uint8Array(b): Uint8Array<Vec<u8>>) -> Arra
 pub fn string_to_buf(s: String) -> Uint8Array<String> {
     Uint8Array(s)
 }
+
+#[neon::export(task)]
+// Ensure that `with` produces a closure that can be moved across thread boundaries
+// and can return a JavaScript value.
+fn sleep_with_js(n: f64) -> impl for<'cx> TryIntoJs<'cx> {
+    use std::{thread, time::Duration};
+
+    thread::sleep(Duration::from_millis(n as u64));
+
+    with(move |cx| Ok(cx.number(n)))
+}
+
+#[neon::export]
+// Ensure that `with` can be used synchronously
+fn sleep_with_js_sync(n: f64) -> impl for<'cx> TryIntoJs<'cx> {
+    sleep_with_js(n)
+}
+
+#[neon::export(task)]
+// Ensure that `With` can be used Rust data
+fn sleep_with(n: f64) -> impl for<'cx> TryIntoJs<'cx> {
+    use std::{thread, time::Duration};
+
+    thread::sleep(Duration::from_millis(n as u64));
+
+    with(move |cx| n.try_into_js(cx))
+}
+
+#[neon::export]
+// Ensure that `With` can be used Rust data synchronously
+fn sleep_with_sync(n: f64) -> impl for<'cx> TryIntoJs<'cx> {
+    sleep_with(n)
+}

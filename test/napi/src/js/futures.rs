@@ -4,7 +4,7 @@ use neon::{
     prelude::*,
     types::{
         buffer::TypedArray,
-        extract::{Error, Json, TryIntoJs, With},
+        extract::{self, Error, Json, TryIntoJs},
     },
 };
 
@@ -129,9 +129,9 @@ fn async_with_events(
     Ok(async move {
         let res = data.into_iter().map(|(a, b)| a * b).collect::<Vec<_>>();
 
-        With(move |cx| -> NeonResult<_> {
+        extract::with(move |cx| -> NeonResult<_> {
             emit(cx, "end")?;
-            Ok(res)
+            res.try_into_js(cx)
         })
     })
 }

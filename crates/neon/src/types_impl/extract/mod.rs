@@ -113,7 +113,7 @@ pub use self::{
         Int32Array, Int8Array, Uint16Array, Uint32Array, Uint8Array,
     },
     error::{Error, TypeExpected},
-    with::With,
+    with::with,
 };
 
 #[cfg(feature = "serde")]
